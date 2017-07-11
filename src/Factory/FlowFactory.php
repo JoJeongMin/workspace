@@ -12,6 +12,7 @@ class FlowFactory
      * getflow method
      *
      * @return Workspace\Flow
+     * @author jeong
      */
     public function getflow(string $flowName, string $flowNamespace = null)
     {
@@ -19,7 +20,7 @@ class FlowFactory
             $flowNamespace = 'Workspace\Flow\\';
         }
 
-        // workflowを作成する
+        // create flow
         $ref = new ReflectionClass($flowNamespace . $flowName . 'Flow');
         $flow = $ref->newInstanceArgs();
 

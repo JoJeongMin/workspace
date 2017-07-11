@@ -5,34 +5,30 @@ use Workspace\Factory\FlowFactory;
 use Workspace\Flow\FlowDataInterface;
 
 /**
- * AppWorkflow class.
- *
- * キャンペーンパターンごとのworflowを定義するclass
+ * AppWorkflow
  */
 class AppWorkflow implements WorkflowInterface
 {
     /**
-     * workflowを定義する
-     * 例：[
+     * workflow
+     * ex：[
      *     'flow' => [
-     *         'entry' => [ // ただのaliasで見る人がわかる単語、処理にはなんの影響もない
-     *             ['Entry'], // 今のflow class名の配列（EntryFlow）
-     *             'Ex' // 次のflow class名（ExFlow）
+     *         'entry' => [
+     *             ['Entry'],
+     *             'Ex'
      *         ]
      *         'send_receipt' => [
-     *             ['Ex'], // 今のflow class名の配列（ExFlow）
-     *             'Send' // 次のflow class名（SendFlow）
+     *             ['Ex'],
+     *             'Send'
      *         ]
      *     ]
      */
     public $transitions = [];
 
-    // 今のstatusを定義
     protected $flow = null;
 
     /**
      * nextFlow
-     * 次のflowを実行させる
      *
      * @param array
      * @return bool
@@ -48,14 +44,12 @@ class AppWorkflow implements WorkflowInterface
 
     /**
      * getNextFlowName method
-     * 次のflowをreturnする.
      *
      * @return string | false
      * @author jeong
      */
     public function getNextFlowName()
     {
-        // $transitionsに定義している配列から今のflowの次のflow名を取得する
         foreach ($this->transitions['flow'] as $transition) {
             if (array_key_exists('prev', $transition)) {
                 $from = $transition['prev'];
@@ -76,16 +70,13 @@ class AppWorkflow implements WorkflowInterface
 
     /**
      * getNextFlow method
-     * 次のflow objectをreturnする.
      *
-     * @return App\Controller\Api\Flow\AppFlow
+     * @return Workspace\Flow
      * @author jeong
      */
     protected function getNextFlow()
     {
-        // 次のflow名を取得する
         $flowName = $this->getNextFlowName();
-        // flow objectを作成する
         return (new FlowFactory())->getflow($flowName);
     }
 }

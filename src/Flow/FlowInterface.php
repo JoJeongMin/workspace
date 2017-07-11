@@ -7,9 +7,9 @@ interface FlowInterface
 {
     /**
      * execute
-     * flowの実行
+     * flow execute
      *
-     * @return bool
+     * @return Workspace\Flow\FlowDataInterface
      * @author jeong
      */
     public function execute(FlowDataInterface $data);
